@@ -1,0 +1,110 @@
+//----0x102 == 274 frame =======================================================
+uint8_t OverRPM_7_1_274 = 0;
+uint8_t LowBattery_6_1_274 = 0;
+uint8_t TconKeepWake_5_1_274 = 0;
+uint8_t Standup_4_1_274 = 0;
+uint8_t Horn_3_1_274 = 0;
+uint8_t HighBeam_2_1_274 = 0;
+uint8_t HeadLamplowBeam_1_1_274 = 0;
+uint8_t Ignition_0_1_274 = 0;
+uint8_t VehicleReady_15_1_274 = 0;
+uint8_t Charging_14_1_274 = 0;
+uint8_t LightSwitch_13_1_274 = 0;
+uint8_t BrakeLamp_12_1_274 = 0;
+uint8_t RearBrakeSwitch_11_1_274 = 0;
+uint8_t FrontBrakeSwitch_10_1_274 = 0;
+uint8_t Regeneration_9_1_274 = 0;
+uint8_t ThrottleSwitch_8_1_274 = 0;
+uint8_t ChargerConnection_23_1_274 = 0;
+uint8_t DCDCOplowvoltage_22_1_274 = 0;
+uint8_t ServiceIndication_21_1_274 = 0;
+uint8_t Softerror_20_1_274 = 0;
+uint8_t PassBySwitch_19_1_274 = 0;
+uint8_t TSLRight_18_1_274 = 0;
+uint8_t TSLLeft_17_1_274 = 0;
+uint8_t Harderror_16_1_274 = 0;
+uint8_t HighBeamOpenCircuit_31_1_274 = 1;
+uint8_t HighBeamShortcircuit_30_1_274 = 0;
+uint8_t HighBeamOvervolatge_29_1_274 = 0;
+uint8_t Highbeamundervoltage_28_1_274 = 0;
+uint8_t LowbeamOpenCircuit_27_1_274 = 0;
+uint8_t LOwBeamShortcircuit_26_1_274 = 0;
+uint8_t LowbeamOvervoltage_25_1_274 = 0;
+uint8_t LowbeamUndervoltage_24_1_274 = 0;
+uint8_t BralelampOpencircuit_39_1_274 = 0;
+uint8_t Brakelampshortcircuit_38_1_274 = 0;
+uint8_t Brakelampovervoltage_37_1_274 = 0;
+uint8_t BrakelampUndervoltage_36_1_274 = 0;
+uint8_t HornOpencircuit_35_1_274 = 0;
+uint8_t Hornshortcircuit_34_1_274 = 0;
+uint8_t HornOvervoltage_33_1_274 = 0;
+uint8_t HornUndervoltage_32_1_274 = 0;
+uint8_t ClusterOpencircuit_47_1_274 = 0;
+uint8_t Clustershortcircuit_46_1_274 = 0;
+uint8_t ClusterOvervoltage_45_1_274 = 0;
+uint8_t ClusterUndervoltage_44_1_274 = 0;
+//uint8_t TailLampOpencircuit_43_1_274 = 0; changed and now occumpied by mode lock
+//uint8_t TaillampShortcircuit_42_1_274 = 0;   
+uint8_t ModeLock_41_3_274 = 0;   // 
+uint8_t TailLampundervoltage_40_1_274 = 0;  // to be changed to Starter Switch actual value
+uint8_t TSLLeftOpencircuit_55_1_274 = 0;
+uint8_t TSLLeftshortcircuit_54_1_274 = 0;
+uint8_t TSLLeftOvervoltage_53_1_274 = 0;
+uint8_t TSLLeftUndervoltage_52_1_274 = 0;
+uint8_t TSLRightOpencircuit_51_1_274 = 0;
+uint8_t TSLRightShortcircuit_50_1_274 = 0;
+uint8_t TSLRightOvervoltage_49_1_274 = 0;
+uint8_t TSLRightUndervoltage_48_1_274 = 0;
+uint8_t MotReady_60_1_274 = 0;
+uint8_t PlugSense_63_1_274 = 0;
+uint8_t LowSoc_62_1_274 = 0;
+uint8_t HazardSW_61_1_274 = 0;
+uint8_t ECUEEPROMfault_59_1_274 = 0;
+uint8_t BmsOn_58_1_274 = 0;
+uint8_t Tcontrollererror_57_1_274 ;
+uint8_t KilSwitch_56_1_274 ;
+//================================================================ variable done now addresss
+uint8_t noOfmembers_274 = 0;
+uint8_t startBit_274[64];
+uint8_t length_274[64];
+uint32_t *address_274[64];
+//  ^^^^^ increase all these values too, we wouldn't be able to judge RAM uses by using malloc 
+uint32_t data0_274;
+uint32_t data1_274;
+uint16_t id_274 = 274;
+//================================================================
+
+
+else if( id_value == 274 )
+	{
+		startBit_274[noOfmembers_274] = start_bit_value ;
+		length_274[noOfmembers_274] = 32 - bit_length_value; // minus lenghth becuase to quick 1's left shift 
+								     // as (0xFFFFFFFF >> ( 32 - length ))
+		address_274[noOfmembers_274] = address;
+		noOfmembers_274++;	
+	}
+
+//=================================================================
+data1_274 = 0;
+	data0_274 = 0;
+	for(out_frame_maker_counter0 = 0; out_frame_maker_counter0 < noOfmembers_274; out_frame_maker_counter0++ )
+	{
+		 start_bit = startBit_274[ out_frame_maker_counter0 ];
+		 length = length_274 [ out_frame_maker_counter0 ];
+		 
+		 
+		if( start_bit > 31)
+		{
+			
+	 data1_274 |= (	(*address_274[ out_frame_maker_counter0 ])  &  (0xFFFFFFFF >> length)) << (start_bit-32);
+	 
+		}
+		else 
+		{
+	
+	 data0_274 |= (	(*address_274[ out_frame_maker_counter0 ])  &  (0xFFFFFFFF >> length)) << start_bit;	
+	
+		}
+		
+	}
+	MY_CAN0_Tx( data0_274, data1_274, 274, 8);
